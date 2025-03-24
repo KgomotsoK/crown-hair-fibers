@@ -1,0 +1,17 @@
+node_modules/
+fronted/.next/
+fronted/node_modules/
+fronted/.github/
+fronted/.husky/
+fronted/.env.local
+Backend/dist/
+Backend/-p/
+Backend/node_modules/
+Backend/logs/
+.env
+logs/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+.ebextensions/

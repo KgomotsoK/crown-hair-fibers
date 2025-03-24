@@ -1,0 +1,76 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-block: 5%;
+}
+
+.underline{
+    height: 5px;
+    background-color: #228B22;
+    width: 50%;
+    border-radius: 50px;
+}
+h1{
+    font-family: 'Nunito';
+    font-size: 2rem;
+    margin: 0;
+}
+.header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.instruction-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.list-item{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    font-size: 1.2rem;
+}
+.list-item > img{
+    width: 100%;
+    border-radius: 5px;
+}
+
+button{
+    background-color: black;
+    color: white;
+    width: 50%;
+    height: 50px;
+    font-family: 'Nunito';
+    font-size: 1.2rem;
+    border-width: 0;
+    border-radius: 10px;
+    box-shadow: black;
+    filter: drop-shadow(0px 4px 4px #000000);
+}
+
+@media screen and (width > 1000px) {
+    .list-item{
+        flex-direction: row;
+        justify-content: space-between;
+        width: 50%;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        font-size: 2rem;
+    }
+    .list-item > img{
+        width: 50%;
+    }
+    button{
+        width: 200px;
+        font-size: 1.5rem;
+    }
+}
