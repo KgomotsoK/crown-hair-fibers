@@ -4,7 +4,7 @@ require('dotenv').config({ path: '../.env' });
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    domains: ['store.crownhairfibers.com', 'crownhairfibers.com', 'secure.gravatar.com'],
+    domains: ['cuvvahairfibers.com', 'crownhairfibers.com', 'secure.gravatar.com'],
   },
   // Add output configuration for static export if needed
   // output: 'export',
