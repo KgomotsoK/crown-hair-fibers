@@ -11,7 +11,7 @@
     width: 100%;
     height: 100%;
     border: none;
-    background-color: #3B513B;
+    background-color: var(--primary-color);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 11;

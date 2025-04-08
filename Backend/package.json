@@ -26,6 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "node-cache": "^5.1.2",
     "nodemailer": "^6.9.16",
+    "stripe": "^18.0.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {

@@ -162,7 +162,7 @@ const Home: React.FC = () => {
         <div className='header-info'>
         <h1>Discover Richer, Fuller Results with CROWN Hair Fibers</h1>
         <p id='p1'>Effortless Application, Stunning Results</p>
-        <button onClick={() => router.push('/products')}>Shop Now</button>
+        <button onClick={() => router.push('/shop')}>Shop Now</button>
         <p id='p2'>free shipping | 30 days guaranteed return</p>
         </div>
         <div className='headerPicsContainer'>

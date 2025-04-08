@@ -68,7 +68,7 @@ html, body {
     height: 100%;
     background-color: rgb(236, 232, 232);
     overflow-x: hidden;
-    font-family: 'Nunito', sans-serif !important;
+    font-family: sans-serif !important;
     width: 100%;
     position: relative;
   }

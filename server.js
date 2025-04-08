@@ -13,7 +13,11 @@ app.prepare().then(() => {
   const server = express();
 
   server.use(cors({
-    origin: 'http://localhost:8000',
+    origin: [
+      process.env.FRONTEND_URL || 'https://www.crownhairfibers.com',
+      'https://crown-hair-fibers-0f1c08080a59.herokuapp.com',
+      'http://localhost:8000',
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

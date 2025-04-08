@@ -1,8 +1,11 @@
 import Footer from '@/components/Footer';
 import NavigationBar from '@/components/NavigationBar';
 import { Providers } from '@/components/providers';
+import RecaptchaProvider from '@/components/RecaptchaProvider';
+import { GoogleTagManager, } from '@next/third-parties/google';
 import type { Metadata } from "next";
 import { Libre_Baskerville, Nunito, Poppins } from "next/font/google";
+import Script from "next/script";
 import "../styles/globals.css";
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
@@ -34,14 +37,35 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+      <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-JCDM3Y66CJ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JCDM3Y66CJ');
+          `}
+        </Script>
+      </head>
       <body className={`${poppins.className} ${nunito.className} ${libreBaskerville.className} min-h-screen bg-background text-foreground`}>
-        <Providers>
-          <NavigationBar />
-          <main>
-            {children}
-          </main>
-          <Footer />  
-        </Providers>
+        <RecaptchaProvider>
+          <Providers>
+            <NavigationBar />
+            <main>
+              {children}
+            </main>
+            <Footer />  
+          </Providers>
+        </RecaptchaProvider>
+        <GoogleTagManager gtmId={process.env?.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID || ''} />
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

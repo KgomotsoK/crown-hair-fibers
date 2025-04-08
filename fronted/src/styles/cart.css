@@ -169,21 +169,28 @@
   }
   
   .continue-shopping {
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
     color: white;
+    font-weight: bold;
   }
   
   .continue-shopping:hover {
-    background-color: #3B513B;
+    background-color: var(--accent-color);
+    color: white !important;
+    border: 2px solid var(--accent-color);
   }
   
   .checkout-button {
-    background-color: rgb(152, 149, 149);
-    color: white;
+    background-color: transparent;
+    border: 2px solid var(--accent-color) !important;
+    color: var(--accent-color);
+    font-weight: bold;
   }
   
   .checkout-button:hover {
-    background-color: rgb(130, 127, 127);
+    background-color: var(--primary-color);
+    color: white !important;
+    border: 2px solid var(--primary-color);
   }
   
   .empty-cart {
