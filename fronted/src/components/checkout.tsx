@@ -87,7 +87,7 @@ const Checkout = () => {
       }
       
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB6pHh6GB3mk-nXQTdS5E5CVtkjL-R7Ndw&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_ADDRESS_FILLER_API_KEY}&libraries=places`;
       script.async = true;
       script.defer = true;
       script.onload = initAutocomplete;
