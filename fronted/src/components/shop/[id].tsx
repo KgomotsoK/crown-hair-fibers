@@ -25,19 +25,19 @@ interface VariationImage {
 // Define a mapping for custom swatch images - you'll need to populate this with your actual image paths
 const CUSTOM_SWATCH_IMAGES: Record<string, string> = {
   // Format: 'option': 'image-path.jpg'
-  'Gray': 'https://cuvvahairfibers.com/wp-content/uploads/Gray.jpg',
-  'Auburn': 'https://cuvvahairfibers.com/wp-content/uploads/Auburn.jpg',
-  'Black': 'https://cuvvahairfibers.com/wp-content/uploads/Black.jpg',
-  'Medium Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Medium-Brown.jpg',
-  'Medium Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/Medium-Blonde.jpg',
-  'Golden Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/Golden-Blonde.jpg',
-  'Dark Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Dark-Brown.jpg',
-  'Light Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Light-Brown.jpg',
-  'White': 'https://cuvvahairfibers.com/wp-content/uploads/White.jpg',
-  'Hazel Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Hazel-Brown.jpg',
-  'Dark Gray': 'https://cuvvahairfibers.com/wp-content/uploads/Dark-Gray.jpg',
-  'Ash Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Ash-Brown.jpg',
-  'Dark Auburn': 'https://cuvvahairfibers.com/wp-content/uploads/Dark-Auburn.jpg',
+  'Gray': 'https://store.cuvvahairfibers.com/wp-content/uploads/Gray.jpg',
+  'Auburn': 'https://store.cuvvahairfibers.com/wp-content/uploads/Auburn.jpg',
+  'Black': 'https://store.cuvvahairfibers.com/wp-content/uploads/Black.jpg',
+  'Medium Brown': 'https://store.cuvvahairfibers.com/wp-content/uploads/Medium-Brown.jpg',
+  'Medium Blonde': 'https://store.cuvvahairfibers.com/wp-content/uploads/Medium-Blonde.jpg',
+  'Golden Blonde': 'https://store.cuvvahairfibers.com/wp-content/uploads/Golden-Blonde.jpg',
+  'Dark Brown': 'https://store.cuvvahairfibers.com/wp-content/uploads/Dark-Brown.jpg',
+  'Light Brown': 'https://store.cuvvahairfibers.com/wp-content/uploads/Light-Brown.jpg',
+  'White': 'https://store.cuvvahairfibers.com/wp-content/uploads/White.jpg',
+  'Hazel Brown': 'https://store.cuvvahairfibers.com/wp-content/uploads/Hazel-Brown.jpg',
+  'Dark Gray': 'https://store.cuvvahairfibers.com/wp-content/uploads/Dark-Gray.jpg',
+  'Ash Brown': 'https://store.cuvvahairfibers.com/wp-content/uploads/Ash-Brown.jpg',
+  'Dark Auburn': 'https://store.cuvvahairfibers.com/wp-content/uploads/Dark-Auburn.jpg',
 };
 
 
