@@ -6,7 +6,7 @@
   padding: 5%;
   flex: 1;
   width: 100%;
-  margin-top: 15%;
+  margin-top: 5%;
 }
 
 .products-page {
@@ -205,7 +205,7 @@
 
 @media (min-width: 1100px) {
   .shop-main-page{
-    margin-top: 5%;
+    margin-top: 0%;
   }
   .card{
     display: grid;

@@ -1,4 +1,5 @@
 'use client';
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 import '@/styles/forms.css';
 import { contact } from '@/utils/api';
 import { motion } from 'framer-motion';
@@ -22,6 +23,7 @@ export default function ContactForm() {
     email: '',
     message: ''
   });
+ const {validateRecaptcha} = useRecaptcha();
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,7 +78,15 @@ export default function ContactForm() {
     if (!validateForm()) {
       return;
     }
-
+    console.log('trying to validate recaptcha');
+    const recaptchaToken = await validateRecaptcha("contact_form");
+    console.log(recaptchaToken);
+    if (!recaptchaToken) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Recaptcha validation failed. Please try again.'
+      });
+    }
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
 
@@ -211,12 +221,16 @@ export default function ContactForm() {
           whileTap={{ scale: 0.98 }}
         >
           {isSubmitting ? (
-            <motion.span
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            >
-              ⟳ Sending...
-            </motion.span>
+            <div className="button-loading">
+            <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}className="button-loading-spinner"></motion.div>
+          <p>Processing...</p>
+        </div>
           ) : (
             'Send'
           )}

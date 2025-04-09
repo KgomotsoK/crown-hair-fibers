@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 async function sendContactMessage(req, res) {
-    console.log(req.body);
     const { name, email, message } = req.body;
 
     // Validate input fields
@@ -34,7 +33,7 @@ async function sendContactMessage(req, res) {
             if (error) {
                 console.error('SMTP Connection Error:', error);
             } else {
-                console.log('SMTP Server is Ready:', success);
+                return;
             }
         });
 
