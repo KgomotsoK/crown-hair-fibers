@@ -25,7 +25,7 @@ async function sendContactMessage(req, res) {
         await transporter.sendMail({
             from: `"${name}" <${process.env.MAIL_USER}>`, // Sender's email address
             to: process.env.MAIL_TO, // Recipient email address
-            subject: `New Message from ${name}`,
+            subject: `Crown USA Contact Form Enquiry from ${name}`,
             text: `Message from ${name} (${email}):\n\n${message}`,
         });
 
