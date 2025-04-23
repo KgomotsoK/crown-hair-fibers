@@ -22,6 +22,7 @@ export function Providers({ children }: ProvidersProps) {
   }));
 
   return (
+    <RecaptchaProvider>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <AuthProvider>
@@ -33,5 +34,6 @@ export function Providers({ children }: ProvidersProps) {
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
+    </RecaptchaProvider>
   );
 }
