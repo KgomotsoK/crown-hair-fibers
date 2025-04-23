@@ -2,7 +2,7 @@ const axios = require('axios');
 
 async function verify_recaptcha(req, res) {
   try {
-    const { token } = await req.json();
+    const { token } = await req.body;
     
     if (!token) {
       return res.json(
