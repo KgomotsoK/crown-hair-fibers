@@ -6,6 +6,7 @@ import { ProductProvider } from '@/context/ProductContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'next-themes';
 import { useState } from 'react';
+import RecaptchaProvider from './RecaptchaProvider';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -22,6 +23,7 @@ export function Providers({ children }: ProvidersProps) {
   }));
 
   return (
+    <RecaptchaProvider>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <AuthProvider>
@@ -33,5 +35,6 @@ export function Providers({ children }: ProvidersProps) {
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
+    </RecaptchaProvider>
   );
 }

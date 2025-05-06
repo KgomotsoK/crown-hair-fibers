@@ -78,9 +78,7 @@ export default function ContactForm() {
     if (!validateForm()) {
       return;
     }
-    console.log('trying to validate recaptcha');
     const recaptchaToken = await validateRecaptcha("contact_form");
-    console.log(recaptchaToken);
     if (!recaptchaToken) {
       setSubmitStatus({
         type: 'error',
@@ -93,7 +91,7 @@ export default function ContactForm() {
     try {
       const response = await contact(formData) as Response;
       
-      if (response.ok) {
+      if (response.status >= 200 && response.status < 300) {
         setSubmitStatus({
           type: 'success',
           message: 'Message sent successfully! We\'ll get back to you soon.'
