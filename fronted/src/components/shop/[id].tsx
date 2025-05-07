@@ -168,11 +168,12 @@ const ProductDetailPage = () => {
           if (matchesSelectedAttributes) {
             setVariationDetails(cachedVariation);
             // Merge variation images with product images to maintain the gallery
+            allProductImages.shift();
             const combinedImages = [...allProductImages];
             // Add variation images if not already included
             cachedVariation.images?.forEach((varImage) => {
               if (!combinedImages.some(img => img.id === varImage.id)) {
-                combinedImages.push(varImage);
+                combinedImages.unshift(varImage);
               }
             });
             
@@ -220,7 +221,7 @@ const ProductDetailPage = () => {
             const combinedImages = [...allProductImages];
             variation.images?.forEach((varImage) => {
               if (!combinedImages.some(img => img.id === varImage.id)) {
-                combinedImages.push(varImage);
+                combinedImages.unshift(varImage);
               }
             });
             
@@ -296,7 +297,7 @@ const ProductDetailPage = () => {
     // Ensure variation images are in the list
     variationDetails.images.forEach(varImage => {
       if (!displayImages.some(img => img.id === varImage.id)) {
-        displayImages.push(varImage);
+        displayImages.unshift(varImage);
       }
     });
   }
@@ -311,7 +312,7 @@ const ProductDetailPage = () => {
       className="product-container"
     >
       <div className="breadcrumb">
-        <Link href="/homepage">Home</Link> / <Link href="/products">Shop</Link> / {product.name}
+        <Link href="/">Home</Link> / <Link href="/shop">Shop</Link> / {product.name}
       </div>
 
       <main className="product-main">

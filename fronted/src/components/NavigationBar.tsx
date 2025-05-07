@@ -326,12 +326,9 @@ export default function NavigationBar() {
           <div className="nav-container navigations">{renderNavLinks()}</div>
           
           <Link href="/homepage" className="nav-logo">
-            <Image
+            <img
               src="https://crownhairfibers.com/wp-content/uploads/2019/05/gold-crown.png"
               alt="Crown Logo"
-              width={100}
-              height={40}
-              priority
             />
           </Link>
           

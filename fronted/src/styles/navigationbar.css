@@ -308,7 +308,20 @@
   
   @media (min-width: 1101px) {
     .mobile-nav { display: none; }
+
+    .desktop-nav .nav-logo{
+      width: 100%;
+      position: absolute;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 65%;
+    }
     
+    .desktop-nav .nav-container {
+      z-index: 999;
+    }
     .navbar-container {
         display: flex;
         justify-content: space-between;

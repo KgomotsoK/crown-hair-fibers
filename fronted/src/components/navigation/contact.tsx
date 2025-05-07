@@ -3,7 +3,7 @@ import { useRecaptcha } from '@/hooks/useRecaptcha';
 import '@/styles/forms.css';
 import { contact } from '@/utils/api';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface FormData {
   name: string;
@@ -31,6 +31,19 @@ export default function ContactForm() {
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
+
+  useEffect(() => {
+    // This will refresh the page once after the component mounts
+    const refreshOnce = () => {
+      // Using sessionStorage to track if the page has been refreshed once already
+      if (!sessionStorage.getItem('pageRefreshed')) {
+        sessionStorage.setItem('pageRefreshed', 'true');
+        window.location.reload();
+      }
+    };
+    
+    refreshOnce();
+  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};

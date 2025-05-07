@@ -7,7 +7,7 @@ const About = () => {
     <main className="container">
       <div className="content-container">
       <div className="breadcrumb">
-        <Link href="/home">Home</Link> / <Link href="/about">About</Link>
+        <Link href="/">Home</Link> / <Link href="/about">About</Link>
       </div>
         <div className="page-title">
           <h1>About us</h1>
