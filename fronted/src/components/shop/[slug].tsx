@@ -1,4 +1,4 @@
-// frontend/src/components/shop/[slug].tsx
+// frontend/src/components/shop/[id].tsx
 'use client'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,14 +6,14 @@ import { motion } from 'framer-motion';
 import parse from 'html-react-parser';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useProductContext } from '../../context/ProductContext';
 import '../../styles/productioncard.css';
 import AddToCart from '../../utils/addTocart';
-import { getProduct, getProductBySlug, getProductReviews, hasUserPurchasedProduct } from '../../utils/api';
+import { getProduct, getProductReviews, hasUserPurchasedProduct } from '../../utils/api';
 import { WooCommerceImage, WooCommerceProduct, WooCommerceReview } from '../../utils/types';
 import ReviewSection from '../account/reviews';
 
@@ -32,6 +32,7 @@ const CUSTOM_SWATCH_IMAGES: Record<string, string> = {
   'Medium Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Medium-Brown.jpg',
   'Medium Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/Medium-Blonde.jpg',
   'Golden Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/Golden-Blonde.jpg',
+  'Light Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/CRO21-light-Brown.png',
   'Dark Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Dark-Brown.jpg',
   'Light Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Light-Brown.jpg',
   'White': 'https://cuvvahairfibers.com/wp-content/uploads/White.jpg',
@@ -44,8 +45,10 @@ const CUSTOM_SWATCH_IMAGES: Record<string, string> = {
 
 const ProductDetailPage = () => {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
   const router = useRouter();
-  const {slug } = params;
+  //const { id } = params;
   const { products, variations, getProductVariations, setVariations } = useProductContext();
   const { user, isAuthenticated } = useAuth();
   const {openCart} = useCart();
@@ -61,8 +64,8 @@ const ProductDetailPage = () => {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [swatchesLoaded, setSwatchesLoaded] = useState(false);
 
-  // Refresh page once after component mounts
-   useEffect(() => {
+  //refresh page once it loads
+    useEffect(() => {
       // This will refresh the page once after the component mounts
       const refreshOnce = () => {
         // Using sessionStorage to track if the page has been refreshed once already
@@ -78,12 +81,12 @@ const ProductDetailPage = () => {
   // Fetch product data and reviews when component mounts or ID changes
   useEffect(() => {
     try{
-      if (slug) {
-        const product = Object.values(products).find(p => p.slug === slug);
-        if (product) {
-              setProduct(product);
+      if (id) {
+        const productId = parseInt(id as string, 10);
+        if (products[productId]) {
+              setProduct(products[productId]);
               if (variations) {
-              setVariations(getProductVariations(product.id));
+              setVariations(getProductVariations(productId));
               setIsInitialLoad(false);
         setSwatchesLoaded(true);
               }
@@ -103,16 +106,8 @@ const ProductDetailPage = () => {
         } else {
               // Fallback fetch if product isn't cached
               const fetchProductById = async () => {
-                try{
-                  // @ts-ignore
-                  if (!product?.id) {
-                    // @ts-ignore
-                    const response = await getProductBySlug(slug);
-                    setProduct(response);
-                  }
-                } catch (error) {
-                  console.error('Failed to fetch product by ID:', error);
-                }                
+                const response = await getProduct(productId);
+                setProduct(response);
               };
               fetchProductById();
         }
@@ -120,10 +115,8 @@ const ProductDetailPage = () => {
   
         const fetchReviews = async () => {
           try {
-            if (product?.id) {
-              const reviews = await getProductReviews(product.id);
-              setReviews(reviews);
-            }
+            const reviews = await getProductReviews(productId);
+            setReviews(reviews);
           } catch (error) {
             console.error('Failed to fetch reviews:', error);
           }
@@ -135,7 +128,7 @@ const ProductDetailPage = () => {
       console.error('Failed to fetch product:', error);
     }
     
-  }, [slug, products]);
+  }, [id, products]);
 
   // Keep a combined set of product images
   useEffect(() => {
@@ -146,11 +139,11 @@ const ProductDetailPage = () => {
 
   // Check if the user has purchased the product
   useEffect(() => {
-    if (isAuthenticated && user && product?.id) {
-      const productId = product?.id;
+    if (isAuthenticated && user && id) {
+      const productId = parseInt(id as string, 10);
       const checkPurchase = async () => {
         try {
-          const hasPurchased = await hasUserPurchasedProduct(user.id, product.id);
+          const hasPurchased = await hasUserPurchasedProduct(user.id, productId);
           setHasPurchased(hasPurchased);
         } catch (error) {
           console.error('Failed to check purchase status:', error);
@@ -158,7 +151,7 @@ const ProductDetailPage = () => {
       };
       checkPurchase();
     }
-  }, [isAuthenticated, user, product]);
+  }, [isAuthenticated, user, id]);
 
   // Find matching variation when attributes are selected
   useEffect(() => {

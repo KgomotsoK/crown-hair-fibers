@@ -19,9 +19,7 @@ async function getProducts(req, res) {
 }
 
 async function getProduct(req, res) {
-    console.log('Fetching product by ID');
     const { product_id } = req.params;
-    console.log(product_id);
     const cacheKey = `product_${product_id}`;
     const cachedData = cache.get(cacheKey);
 
@@ -40,9 +38,7 @@ async function getProduct(req, res) {
 }
 
 async function getProductBySlug(req, res) {
-    console.log('Fetching product by slug');
     const { slug } = req.params;
-    console.log(slug);
     const cacheKey = `product_${slug}`;
     const cachedData = cache.get(cacheKey);
 
