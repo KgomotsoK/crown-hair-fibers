@@ -1,3 +1,4 @@
+// fronted/src/context/ProductContext.tsx
 'use client';
 import { WooCommerceProduct } from '@/utils/types';
 import React, { createContext, useContext, useEffect, useState } from 'react';

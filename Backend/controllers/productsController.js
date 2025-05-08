@@ -19,7 +19,9 @@ async function getProducts(req, res) {
 }
 
 async function getProduct(req, res) {
+    console.log('Fetching product by ID');
     const { product_id } = req.params;
+    console.log(product_id);
     const cacheKey = `product_${product_id}`;
     const cachedData = cache.get(cacheKey);
 
@@ -33,6 +35,27 @@ async function getProduct(req, res) {
         res.json(response.data);
     } catch (error) {
         console.error(`Error fetching product with ID ${product_id}:`, error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+async function getProductBySlug(req, res) {
+    console.log('Fetching product by slug');
+    const { slug } = req.params;
+    console.log(slug);
+    const cacheKey = `product_${slug}`;
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+        return res.json(cachedData);
+    }
+
+    try {
+        const response = await wooCommerceAPI.get(`/products?slug=${slug}`);
+        cache.set(cacheKey, response.data);
+        res.json(response.data);
+    } catch (error) {
+        console.error(`Error fetching product with slug ${product_slug}:`, error.message);
         res.status(500).send('Internal Server Error');
     }
 }
@@ -126,4 +149,4 @@ async function deleteReview(req, res) {
         res.status(500).send('Internal Server Error');
     }
 }
-module.exports = { getProducts, getProduct, getProductReviews, getCustomerReviews, addReview, editReview, deleteReview };
+module.exports = { getProducts, getProduct, getProductBySlug, getProductReviews, getCustomerReviews, addReview, editReview, deleteReview };

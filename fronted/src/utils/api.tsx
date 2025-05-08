@@ -121,6 +121,10 @@ export const getProduct = async (productId: number): Promise<WooCommerceProduct>
     return response.data;
 };
 
+export const getProductBySlug = async (slug: string): Promise<WooCommerceProduct> => {
+  const response = await axios.get(`${API_BASE}/products/${slug}`);
+  return response.data;
+};
 
 export const contact = async (data: object): Promise<unknown> => {
     const response = await axios.post(`${API_BASE}/contact`, data);

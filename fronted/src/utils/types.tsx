@@ -1,3 +1,4 @@
+// frontend/src/utils/types.tsx
 export interface WooCommerceImage {
   id: number;
   date_created: string;

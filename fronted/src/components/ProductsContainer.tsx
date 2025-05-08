@@ -1,3 +1,4 @@
+// fronted/src/components/ProductsContainer.tsx
 'use client';
 import ProductCard from '@/components/ProductCard';
 import { useProductContext } from '@/context/ProductContext';

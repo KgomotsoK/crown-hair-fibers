@@ -1,4 +1,4 @@
-import ProductDetailPage from "@/components/shop/[id]";
+import ProductDetailPage from "@/components/shop/[slug]";
 
 const ProductPage = () => {
     return <ProductDetailPage/>;

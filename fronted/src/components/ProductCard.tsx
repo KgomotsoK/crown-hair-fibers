@@ -1,3 +1,4 @@
+// fronted/src/components/ProductCard.tsx
 'use client';
 import parse from 'html-react-parser';
 import Image from 'next/image';
@@ -38,8 +39,8 @@ const ProductCardItem: React.FC<{ product: WooCommerceProduct }> = ({ product })
   };
 
   return (
-    <div key={product.id} className='product-card' onClick={() => router.push(`/shop/${product.id}/?name=${product.name}`)}>
-      <div onClick={() => router.push(`/shop/${product.id}/?name=${product.name}`)} >
+    <div key={product.id} className='product-card' onClick={() => router.push(`/shop/${product.slug}/?id=${product.id}`)}>
+      <div onClick={() => router.push(`/shop/${product.slug}/?id=${product.id}`)} >
         {product.on_sale && (
           <div className='sale_price'>
             {product.regular_price && product.sale_price 

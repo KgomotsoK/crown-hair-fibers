@@ -1,4 +1,4 @@
-// frontend/src/components/shop/[id].tsx
+// frontend/src/components/shop/[slug].tsx
 'use client'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,7 @@ import { useCart } from '../../context/CartContext';
 import { useProductContext } from '../../context/ProductContext';
 import '../../styles/productioncard.css';
 import AddToCart from '../../utils/addTocart';
-import { getProduct, getProductReviews, hasUserPurchasedProduct } from '../../utils/api';
+import { getProduct, getProductBySlug, getProductReviews, hasUserPurchasedProduct } from '../../utils/api';
 import { WooCommerceImage, WooCommerceProduct, WooCommerceReview } from '../../utils/types';
 import ReviewSection from '../account/reviews';
 
@@ -45,7 +45,7 @@ const CUSTOM_SWATCH_IMAGES: Record<string, string> = {
 const ProductDetailPage = () => {
   const params = useParams();
   const router = useRouter();
-  const { id } = params;
+  const {slug } = params;
   const { products, variations, getProductVariations, setVariations } = useProductContext();
   const { user, isAuthenticated } = useAuth();
   const {openCart} = useCart();
@@ -78,12 +78,12 @@ const ProductDetailPage = () => {
   // Fetch product data and reviews when component mounts or ID changes
   useEffect(() => {
     try{
-      if (id) {
-        const productId = parseInt(id as string, 10);
-        if (products[productId]) {
-              setProduct(products[productId]);
+      if (slug) {
+        const product = Object.values(products).find(p => p.slug === slug);
+        if (product) {
+              setProduct(product);
               if (variations) {
-              setVariations(getProductVariations(productId));
+              setVariations(getProductVariations(product.id));
               setIsInitialLoad(false);
         setSwatchesLoaded(true);
               }
@@ -103,8 +103,16 @@ const ProductDetailPage = () => {
         } else {
               // Fallback fetch if product isn't cached
               const fetchProductById = async () => {
-                const response = await getProduct(productId);
-                setProduct(response);
+                try{
+                  // @ts-ignore
+                  if (!product?.id) {
+                    // @ts-ignore
+                    const response = await getProductBySlug(slug);
+                    setProduct(response);
+                  }
+                } catch (error) {
+                  console.error('Failed to fetch product by ID:', error);
+                }                
               };
               fetchProductById();
         }
@@ -112,8 +120,10 @@ const ProductDetailPage = () => {
   
         const fetchReviews = async () => {
           try {
-            const reviews = await getProductReviews(productId);
-            setReviews(reviews);
+            if (product?.id) {
+              const reviews = await getProductReviews(product.id);
+              setReviews(reviews);
+            }
           } catch (error) {
             console.error('Failed to fetch reviews:', error);
           }
@@ -125,7 +135,7 @@ const ProductDetailPage = () => {
       console.error('Failed to fetch product:', error);
     }
     
-  }, [id, products]);
+  }, [slug, products]);
 
   // Keep a combined set of product images
   useEffect(() => {
@@ -136,11 +146,11 @@ const ProductDetailPage = () => {
 
   // Check if the user has purchased the product
   useEffect(() => {
-    if (isAuthenticated && user && id) {
-      const productId = parseInt(id as string, 10);
+    if (isAuthenticated && user && product?.id) {
+      const productId = product?.id;
       const checkPurchase = async () => {
         try {
-          const hasPurchased = await hasUserPurchasedProduct(user.id, productId);
+          const hasPurchased = await hasUserPurchasedProduct(user.id, product.id);
           setHasPurchased(hasPurchased);
         } catch (error) {
           console.error('Failed to check purchase status:', error);
@@ -148,7 +158,7 @@ const ProductDetailPage = () => {
       };
       checkPurchase();
     }
-  }, [isAuthenticated, user, id]);
+  }, [isAuthenticated, user, product]);
 
   // Find matching variation when attributes are selected
   useEffect(() => {
