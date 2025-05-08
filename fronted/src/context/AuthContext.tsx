@@ -1,3 +1,4 @@
+// Fronted/src/context/AuthContext.tsx
 'use client';
 import { useRouter } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
@@ -45,27 +46,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await api.login(email, password);
-      // @ts-ignore
-      if ('id' in response.user[0]) {
-        // This is a WooCommerceCustomer
-        // @ts-ignore
-        setUser(response.user[0]);
-        // @ts-ignore
-        localStorage.setItem('user', JSON.stringify(response.user[0]));
-        if ('token' in response) {
-          localStorage.setItem('token', response.token as string);
-          setToken(response.token as string);
-        }
-        // @ts-ignore
-        return { success: true, user: response.user[0] };
-      } else {
-        // This is an error response
-        return { 
-          success: false, 
-          // @ts-ignore
-          message: response.message 
-        };
+      
+      // Handle successful login
+      if ('user' in response && 'token' in response) {
+        setUser(response.user);
+        setToken(response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('token', response.token);
+        return { success: true, user: response.user };
       }
+      
+      // Handle error response
+      return { 
+        success: false, 
+        message: response.message || 'Login failed' 
+      };
     } catch (error) {
       console.error('Auth context login error:', error);
       return { 
@@ -79,22 +74,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await api.register(username, first_name, last_name, email, password);
       
-      if ('id' in response) {
-        // This is a WooCommerceCustomer
-        setUser(response);
-        localStorage.setItem('user', JSON.stringify(response));
-        if ('token' in response) {
-          localStorage.setItem('token', response.token as string);
-          setToken(response.token as string);
-        }
-        return { success: true, user: response };
-      } else {
-        // This is an error response
-        return { 
-          success: false, 
-          message: response.message 
-        };
+      // Handle successful registration
+      if ('user' in response && 'token' in response) {
+        setUser(response.user);
+        setToken(response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('token', response.token);
+        return { success: true, user: response.user };
       }
+      
+      // Handle error response
+      return { 
+        success: false, 
+        message: response.message || 'Registration failed' 
+      };
     } catch (error) {
       console.error('Auth context register error:', error);
       return { 

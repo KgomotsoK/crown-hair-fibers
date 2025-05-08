@@ -1,3 +1,4 @@
+// frontend/src/components/shop/[id].tsx
 'use client'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -59,6 +60,20 @@ const ProductDetailPage = () => {
   const [hasPurchased, setHasPurchased] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [swatchesLoaded, setSwatchesLoaded] = useState(false);
+
+  // Refresh page once after component mounts
+   useEffect(() => {
+      // This will refresh the page once after the component mounts
+      const refreshOnce = () => {
+        // Using sessionStorage to track if the page has been refreshed once already
+        if (!sessionStorage.getItem('pageRefreshed')) {
+          sessionStorage.setItem('pageRefreshed', 'true');
+          window.location.reload();
+        }
+      };
+      
+      refreshOnce();
+    }, []);
 
   // Fetch product data and reviews when component mounts or ID changes
   useEffect(() => {
@@ -167,24 +182,19 @@ const ProductDetailPage = () => {
 
           if (matchesSelectedAttributes) {
             setVariationDetails(cachedVariation);
-            // Merge variation images with product images to maintain the gallery
-            allProductImages.shift();
-            const combinedImages = [...allProductImages];
-            // Add variation images if not already included
-            cachedVariation.images?.forEach((varImage) => {
-              if (!combinedImages.some(img => img.id === varImage.id)) {
-                combinedImages.unshift(varImage);
-              }
-            });
             
-            // Select the first variation image in the gallery if available
-            if (cachedVariation.images?.length) {
-              const variationImageIndex = combinedImages.findIndex(
-                img => img.id === cachedVariation.images[0].id
-              );
-              if (variationImageIndex !== -1) {
-                setSelectedImage(variationImageIndex);
-              }
+            // Create a new image array, starting with the variation image
+            const newImages = [...allProductImages];
+            
+            // If variation has images, remove the first product image and put variation image first
+            if (cachedVariation.images?.length > 0) {
+              // Create a new array with variation image first (index 0), then original images except the first one
+              const updatedImages = [
+                cachedVariation.images[0],
+                ...newImages.filter((_, index) => index !== 0)
+              ];
+              setAllProductImages(updatedImages);
+              setSelectedImage(0); // Select the first image (variation image)
             }
             
             setIsLoadingVariation(false);
@@ -217,22 +227,19 @@ const ProductDetailPage = () => {
 
           if (matchesSelectedAttributes) {
             setVariationDetails(variation);
-            // Merge variation images with product images
-            const combinedImages = [...allProductImages];
-            variation.images?.forEach((varImage) => {
-              if (!combinedImages.some(img => img.id === varImage.id)) {
-                combinedImages.unshift(varImage);
-              }
-            });
             
-            // Select the first variation image in the gallery if available
-            if (variation.images?.length) {
-              const variationImageIndex = combinedImages.findIndex(
-                img => img.id === variation.images[0].id
-              );
-              if (variationImageIndex !== -1) {
-                setSelectedImage(variationImageIndex);
-              }
+            // Create a new image array, starting with the variation image
+            const newImages = [...allProductImages];
+            
+            // If variation has images, remove the first product image and put variation image first
+            if (variation.images?.length > 0) {
+              // Create a new array with variation image first (index 0), then original images except the first one
+              const updatedImages = [
+                variation.images[0],
+                ...newImages.filter((_, index) => index !== 0)
+              ];
+              setAllProductImages(updatedImages);
+              setSelectedImage(0); // Select the first image (variation image)
             }
             
             break;
@@ -292,15 +299,8 @@ const ProductDetailPage = () => {
   const showBeFirstToReview = isAuthenticated && hasPurchased && !showReviews;
   
   // Get the current product images to display
-  const displayImages = [...allProductImages];
-  if (variationDetails?.images?.length) {
-    // Ensure variation images are in the list
-    variationDetails.images.forEach(varImage => {
-      if (!displayImages.some(img => img.id === varImage.id)) {
-        displayImages.unshift(varImage);
-      }
-    });
-  }
+  // We're now using allProductImages directly since we've already handled image replacement
+  const displayImages = allProductImages;
 
   const productId = product.id;
 

@@ -1,14 +1,34 @@
+// Fronted/src/utils/api.tsx
 import axios from 'axios';
 import { WooCommerceCustomer, WooCommerceOrder, WooCommerceProduct, WooCommerceReview } from '../utils/types';
 
 // Use environment variable for API base URL
 const API_BASE = '/api';
 
-type LoginResponse = WooCommerceCustomer | { success: false; message: string };
+type LoginResponse = {
+  user: WooCommerceCustomer;
+  token: string;
+} | { 
+  success: false; 
+  message: string 
+};
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
+  try {
     const response = await axios.post(`${API_BASE}/auth/login`, { email, password });
     return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return { 
+        success: false, 
+        message: error.response?.data?.message || error.message 
+      };
+    }
+    return { 
+      success: false, 
+      message: 'An unexpected error occurred' 
+    };
+  }
 };
 
 export const register = async (username: string, first_name: string, last_name: string, email: string, password: string): Promise<LoginResponse> => {

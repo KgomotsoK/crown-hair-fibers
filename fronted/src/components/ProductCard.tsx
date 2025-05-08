@@ -38,8 +38,8 @@ const ProductCardItem: React.FC<{ product: WooCommerceProduct }> = ({ product })
   };
 
   return (
-    <div key={product.id} className='product-card' onClick={() => router.push(`/shop/${product.id}`)}>
-      <div onClick={() => router.push(`/shop/${product.id}`)} >
+    <div key={product.id} className='product-card' onClick={() => router.push(`/shop/${product.id}/?name=${product.name}`)}>
+      <div onClick={() => router.push(`/shop/${product.id}/?name=${product.name}`)} >
         {product.on_sale && (
           <div className='sale_price'>
             {product.regular_price && product.sale_price 

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { useRecaptcha } from '../../hooks/useRecaptcha';
 import { FormField } from '../account/formfield';
 
 interface LoginFormData {
@@ -25,6 +26,7 @@ export default function Login() {
   const { login } = useAuth();
   const [serverMessage, setServerMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const { validateRecaptcha } = useRecaptcha();
 
   const {
     register,
@@ -35,6 +37,14 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
+
+    /*const recaptchaToken = await validateRecaptcha("contact_form");
+    if (!recaptchaToken) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Recaptcha validation failed. Please try again.'
+      });
+    }*/
     setLoading(true);
     setServerMessage(''); // Clear any previous messages
     try {
@@ -113,7 +123,7 @@ export default function Login() {
           <Link href="/password-reset" className="forgot-link">
             Forgot Password?
           </Link>
-          <Link href="/register" className="register-link">
+          <Link href="/auth/register" className="register-link">
             Create Account
           </Link>
         </div>

@@ -65,7 +65,7 @@ export default function Register() {
       if (response.success && response.user) {
         setServerMessage('Registration successful! Redirecting to login...');
         await new Promise(resolve => setTimeout(resolve, 1500));
-        router.push('/login');
+        router.push('/auth/login');
       } else {
         setServerMessage(response.message || 'Registration failed. Please try again.');
       }
@@ -162,7 +162,7 @@ export default function Register() {
           </motion.button>
 
           <div className="auth-links">
-            <Link href="/login">
+            <Link href="/auth/login">
               Already have an account? Login
             </Link>
           </div>

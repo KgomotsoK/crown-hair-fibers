@@ -4,21 +4,19 @@ const axios = require('axios');
 const cache = require('../utils/cache');
 const nodemailer = require('nodemailer'); // For email functionality
 const crypto = require('crypto');
+const { console } = require('inspector');
 require('dotenv').config();
 
 let resetTokens = {}; // Temporary in-memory store for password reset tokens
 
 // Register New Customer
 async function registerCustomer(req, res) {
-    const { username,
-        first_name,
-        last_name,
-        email,
-        password } = req.body;
-    if (!email || !password || !first_name || !last_name || !username) {
-        return res.status(400).send('All fields are required.');
-    }
+    const { username, first_name, last_name, email, password } = req.body;
     
+    if (!email || !password || !first_name || !last_name || !username) {
+        return res.status(400).json({ error: 'All fields are required.' });
+    }
+
     try {
         const response = await wooCommerceAPI.post('/customers', {
             username,
@@ -26,42 +24,65 @@ async function registerCustomer(req, res) {
             last_name,
             email,
             password
-        },
-        {
-            withCredentials: true
         });
-        
-        res.status(201).json({ message: 'Customer registered successfully', data: response.data });
+
+        res.status(201).json({ 
+            message: 'Customer registered successfully', 
+            data: response.data 
+        });
     } catch (error) {
-        console.error('Error registering customer:', error.message);
-        res.status(500).send('Internal Server Error');
+        console.error('Error registering customer:', error.response?.data || error.message);
+        res.status(500).json({ 
+            error: 'Internal Server Error',
+            details: error.response?.data || error.message
+        });
     }
 }
 
 // Login Existing Customer
 async function loginCustomer(req, res) {
+    console.log('Login request received');
     const { email, password } = req.body;
+    
     if (!email || !password) {
-        return res.status(400).send('Email and password are required.');
+        return res.status(400).json({ error: 'Email and password are required.' });
     }
+    
     try {
         // Authenticate the user via WordPress REST API
-        const response = await axios.post(`${process.env.WC_BASE_URL}/wp-json/jwt-auth/v1/token`, {
-            username: email, // Email works as the username
-            password,
-        });
-        if (!response.data){
-            throw new Error('Failed to authenticate customer.')
+        const authResponse = await axios.post(
+            `${process.env.WC_BASE_URL}/wp-json/jwt-auth/v1/token`, 
+            {
+                username: email,
+                password,
+            }
+        );
+        
+        if (!authResponse.data || !authResponse.data.token) {
+            return res.status(401).json({ error: 'Authentication failed' });
         }
 
-        customerData = await wooCommerceAPI.get(`/customers?email=${email}`);
-        
-        cache.set('customer', customerData.data); // Cache the response
-        return {user:customerData.data, token:response.data.token};
+        // Get customer data from WooCommerce
+        const customerResponse = await wooCommerceAPI.get(`/customers?email=${email}`);
+        if (!customerResponse.data || customerResponse.data.length === 0) {
+            return res.status(404).json({ error: 'Customer not found' });
+        }
+
+        // Cache the response
+        cache.set('customer', customerResponse.data[0]);
+
+        // Send response to client
+        res.json({
+            user: customerResponse.data[0],
+            token: authResponse.data.token
+        });
 
     } catch (error) {
-        console.error('Error logging in customer:', error.message);
-        res.status(500).send('Internal Server Error');
+        console.error('Error logging in customer:', error.response?.data || error.message);
+        res.status(500).json({ 
+            error: 'Internal Server Error',
+            details: error.response?.data || error.message
+        });
     }
 }
 

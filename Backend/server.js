@@ -10,7 +10,6 @@ const errorHandler = require('./middlewares/error-handler');
 const { handleStripeWebhook } = require('./controllers/paymentsController');
 
 const app = express();
-
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -73,3 +72,8 @@ app.get('/health', (req, res) => {
 app.use(errorHandler);
 
 module.exports = app;
+/*const port = process.env.PORT || 3000;
+app.listen(port, (err) => {
+  if (err) throw err;
+  console.log(`> Ready on http://localhost:${port}`);
+});*/

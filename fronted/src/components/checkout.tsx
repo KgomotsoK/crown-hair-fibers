@@ -1,5 +1,5 @@
 'use client';
-//import { useRecaptcha } from '@/hooks/useRecaptcha';
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -22,7 +22,7 @@ const Checkout = () => {
   const [saveBillingInfo, setSaveBillingInfo] = useState(false);
   const billingAutocompleteRef = useRef(null);
   const shippingAutocompleteRef = useRef(null);
-  //const {validateRecaptcha} = useRecaptcha();
+  const {validateRecaptcha} = useRecaptcha();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

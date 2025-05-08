@@ -1,3 +1,4 @@
+// Backend/routes/auth.js
 const express = require('express');
 const { registerCustomer, loginCustomer, forgotPasswordRequest, updateCustomerDetails, resetPassword } = require('../controllers/authController');
 const router = express.Router();

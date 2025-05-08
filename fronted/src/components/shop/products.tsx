@@ -1,3 +1,4 @@
+// fronted/src/components/shop/products.tsx
 'use client';
 import Link from 'next/link';
 import '../../styles/products.css';

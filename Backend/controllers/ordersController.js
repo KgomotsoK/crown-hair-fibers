@@ -64,11 +64,12 @@ async function getCustomerOrders(req, res) {
 }
 
 async function getOrders(req, res) {
+    console.log("Fetching all orders");
     try {
         const response = await wooCommerceAPI.get(`/orders`);
         res.json(response.data);
     } catch (error) {
-        console.error('Error fetching order:', error.message);
+        console.error('Error fetching orders:', error.message);
         res.status(500).send('Internal Server Error');
     }
 }
