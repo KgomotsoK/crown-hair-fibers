@@ -2,6 +2,7 @@
 'use client';
 import parse from 'html-react-parser';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useProductContext } from '../context/ProductContext';
@@ -48,7 +49,8 @@ const ProductCardItem: React.FC<{ product: WooCommerceProduct }> = ({ product })
   };
 
   return (
-    <div 
+    <Link 
+      href={`/shop/${product.slug}/?id=${product.id}`}
       key={product.id} 
       className='product-card' 
       onClick={() => router.push(`/shop/${product.slug}/?id=${product.id}`)}
@@ -89,7 +91,7 @@ const ProductCardItem: React.FC<{ product: WooCommerceProduct }> = ({ product })
           <AddToCart product={product} />
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 
