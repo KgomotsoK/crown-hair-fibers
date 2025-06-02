@@ -3,52 +3,53 @@ import { ProductProvider } from '@/context/ProductContext';
 import { faChevronLeft, faChevronRight, faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import videoData from '../data/Videos.json';
 import '../styles/home.css';
-import ProductsList from './ProductsContainer';
+import ProductsContainer from './ProductsContainer';
 
 
 // Types
-interface VideoData {
-  src: string;
-  profilePic: string;
-  name: string;
-  comment: string;
-}
-
-
 interface VideoPlayerProps {
   showProfile?: boolean;
+  videoData: {
+    src: string;
+    loop?: string;
+    profilePic: string;
+    name: string;
+    comment: string;
+  }[];
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ showProfile = false }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ showProfile = false, videoData }) => {
   const [currentVideo, setCurrentVideo] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleVideoEnd = useCallback(() => {
-    setCurrentVideo(prev => (prev + 1) % videoData.length);
+    setCurrentVideo((prev) => (prev + 1) % videoData.length);
     setIsPlaying(false);
-  }, []);
+  }, [videoData.length]);
 
   const handleNext = useCallback(() => {
-    setCurrentVideo(prev => (prev + 1) % videoData.length);
+    setCurrentVideo((prev) => (prev + 1) % videoData.length);
     setIsPlaying(false);
-  }, []);
+  }, [videoData.length]);
 
   const handlePrev = useCallback(() => {
-    setCurrentVideo(prev => (prev - 1 + videoData.length) % videoData.length);
+    setCurrentVideo((prev) => (prev - 1 + videoData.length) % videoData.length);
     setIsPlaying(false);
-  }, []);
+  }, [videoData.length]);
 
   const handlePlayClick = useCallback(() => {
     if (videoRef.current) {
-      videoRef.current.play()
+      videoRef.current
+        .play()
         .then(() => setIsPlaying(true))
-        .catch(error => console.error('Video playback failed:', error));
+        .catch((error) => console.error('Video playback failed:', error));
     }
   }, []);
 
@@ -61,47 +62,57 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ showProfile = false }) => {
 
   return (
     <>
-      <div className='videoWrapper'>
-        <FontAwesomeIcon className='arrow' icon={faChevronLeft} onClick={handlePrev} />
-
-        <div className='videoContainer'>
-          <video
-            ref={videoRef}
-            className='video'
-            onEnded={handleVideoEnd}
-            controls
-          >
-            <source src={videoData[currentVideo].src} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-
-          {!isPlaying && (
-            <FontAwesomeIcon className='playOverlay' icon={faCirclePlay} onClick={handlePlayClick} />
-          )}
+      {!showProfile ? (
+        <div className="videoWrapper">
+          <FontAwesomeIcon className="arrow" icon={faChevronLeft} onClick={handlePrev} />
+          <div className="videoContainer">
+            <video ref={videoRef} className="video" onEnded={handleVideoEnd} controls>
+              <source src={videoData[currentVideo].loop} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {!isPlaying && (
+              <FontAwesomeIcon className="playOverlay" icon={faCirclePlay} onClick={handlePlayClick} />
+            )}
+          </div>
+          <FontAwesomeIcon className="arrow" icon={faChevronRight} onClick={handleNext} />
         </div>
-
-        <FontAwesomeIcon className='arrow' icon={faChevronRight} onClick={handleNext} />
-      </div>
+      ) : (
+        <div className="videoWrapper">
+          <FontAwesomeIcon className="arrow" icon={faChevronLeft} onClick={handlePrev} />
+          <div className="videoContainer">
+            <video ref={videoRef} className="video" onEnded={handleVideoEnd} controls>
+              <source src={videoData[currentVideo].src} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {!isPlaying && (
+              <FontAwesomeIcon className="playOverlay" icon={faCirclePlay} onClick={handlePlayClick} />
+            )}
+          </div>
+          <FontAwesomeIcon className="arrow" icon={faChevronRight} onClick={handleNext} />
+        </div>
+      )}
 
       {showProfile && (
-        <div className='userProfile'>
-          <img
+        <div className="userProfile">
+          <Image
             src={videoData[currentVideo].profilePic}
             alt={videoData[currentVideo].name}
-            className='profileImage'
+            className="profileImage"
+            width={50}
+            height={50}
           />
-          <div className='profileDetails'>
-            <h4 className='userName'>{videoData[currentVideo].name}</h4>
-            <p className='userComment'>{videoData[currentVideo].comment}</p>
+          <div className="profileDetails">
+            <h4 className="userName">{videoData[currentVideo].name}</h4>
+            <p className="userComment">{videoData[currentVideo].comment}</p>
           </div>
         </div>
       )}
 
-      <div className='dots'>
+      <div className="dots">
         {videoData.map((_, index) => (
           <span
             key={index}
-            className={`dot ${index === currentVideo ? 'activeDot' : ""}`}
+            className={`dot ${index === currentVideo ? 'activeDot' : ''}`}
             onClick={() => {
               setCurrentVideo(index);
               setIsPlaying(false);
@@ -175,22 +186,30 @@ const Home: React.FC = () => {
           
         </div>
         </div>
-       
-        
-        
       </section>
-      <section className='homepage-section'>
+
+      <motion.section
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className='homepage-section'
+      >
         <div className='shop-now'>
           <h2>Shop Now</h2>
           <div className='products-list'>
-          <ProductsList/>
+          <ProductsContainer />
           </div>
         </div>
-      </section>
+       </motion.section>
       
-      <section className='homepage-section'>
+      <motion.section
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className='homepage-section'
+      >
       <div className='section-contents'>
-      <h2>Effortless transformations</h2>
+      <h2>Effortless Transformations</h2>
       <div className='video-container'>
       <div className='videoWrapper'>
         <div className='videoContainer'>
@@ -212,10 +231,10 @@ const Home: React.FC = () => {
       </div>
       </div>   
         </div>
-        </section>
+       </motion.section>
 
         <section className='homepage-section'>
-            <div className='section-contents'>
+            <div className='section-contents why-us-contents'>
             <h2>Why Choose CROWN Hair Fibers?</h2>
             <div className='why-us-section'>
               <p>Our fibers are made from high-quality hypoallergenic keratin protein, the same protein found in human hair. Once sprinkled into your hair, these tiny fibers cling like magnets to existing strands, filling in exposed scalp areas, and making hair strands appear thicker.</p>
@@ -236,15 +255,17 @@ const Home: React.FC = () => {
           </div>
           </section>
 
-      <section className='homepage-section'>
-      <div className='section-contents'>
-      <h2>Hear directly from our happy clients</h2>
-      <div className='video-container'>
-      <VideoPlayer showProfile={true} />
-      </div>
-          
-          </div>
-        </section>
+     <motion.section
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className='homepage-section testimonials'
+      >
+        <div className='section-contents'>
+          <h2>Hear Directly From Our Happy Clients</h2>
+        <VideoPlayer showProfile={true} videoData={videoData} />
+        </div>
+      </motion.section>
 
        
     </main>

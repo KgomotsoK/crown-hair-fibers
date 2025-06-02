@@ -106,9 +106,7 @@ html, body {
     text-decoration: none;
   }
 
-  .breadcrumb a:hover{
-    color:#228B22;
-  }
+  
 
   @media screen and (min-width: 1200px) {
     main {

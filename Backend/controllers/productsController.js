@@ -9,7 +9,7 @@ async function getProducts(req, res) {
     }
 
     try {
-        const response = await wooCommerceAPI.get('/products');
+        const response = await wooCommerceAPI.get('/products?per_page=20'); // Adjust the per_page parameter as needed
         cache.set('products', response.data);
         res.json(response.data);
     } catch (error) {

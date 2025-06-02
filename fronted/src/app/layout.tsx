@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   keywords: ["Hair fibers", "hair", "hair repairs", "concealers", "hair loss", "hair thinning", "hair restoration", "hair care", "hair products", "hair styling", "hair treatments", "hair solutions", "hair growth", "hair health", "hair beauty", "hair cosmetics", "hair accessories", "hair tools", "hair appliances", "hair equipment", "hair supplies", "hair merchandise", "hair goods", "hair items", "hair essentials", "hair necessities", "hair requirements", "hair needs"],
   authors: [{ name: "Crown Hair Fibers" }],
   icons: {
-    icon: '/favicon.ico',
+    icon: '/assets/images/favicon.png',
   },
 };
 
