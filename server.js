@@ -14,7 +14,7 @@ app.prepare().then(() => {
 
   server.use(cors({
     origin: [
-      process.env.FRONTEND_URL || 'https://www.crownhairfibers.com',
+      process.env.FRONTEND_URL || 'https://www.crowntwentyone.com',
       'https://crown-hair-fibers-0f1c08080a59.herokuapp.com',
       'http://localhost:8000',
     ],
