@@ -44,6 +44,37 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: '/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Expires',
+            value: new Date(Date.now() + 31536000 * 1000).toUTCString(),
+          },
+        ],
+      },
+      {
+        source: '/:path*\\.(js|css|png|jpg|jpeg|gif|ico|svg)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600', // 1 hour for pages
+          },
+        ],
+      },
     ];
   },
 };
