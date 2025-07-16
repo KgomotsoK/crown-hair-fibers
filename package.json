@@ -1,0 +1,32 @@
+{
+  "name": "cuvva-web",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "fronted": "cd fronted && npm run dev",
+    "Backend": "cd Backend && npm run dev",
+    "dev": "concurrently \"npm run fronted\" \"npm run Backend\"",
+    "build:fronted": "cd fronted && npm install && npm run build",
+    "build:Backend": "cd Backend && npm install && npm run build",
+    "build": "npm run build:fronted && npm run build:Backend",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "next": "15.1.0",
+    "rimraf": "^6.0.1"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.12",
+    "typescript": "^5.8.2"
+  }
+}

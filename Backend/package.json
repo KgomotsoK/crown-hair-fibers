@@ -1,0 +1,36 @@
+{
+  "name": "cuvva-backend",
+  "version": "1.0.0",
+  "description": "back end for cuvva store",
+  "main": "server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "nodemon server.js",
+    "build": "npm run clean && npm run copy",
+    "clean": "rimraf dist",
+    "copy": "mkdir dist && cp -R *.js config/ controllers/ middlewares/ routes/ utils/ dist/"
+  },
+  "author": "Kgomotso",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "compression": "^1.7.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-cache": "^5.1.2",
+    "nodemailer": "^6.9.16",
+    "stripe": "^18.0.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "rimraf": "^6.0.1"
+  }
+}
