@@ -3,7 +3,7 @@ import axios from 'axios';
 import { WooCommerceCustomer, WooCommerceOrder, WooCommerceProduct, WooCommerceReview } from '../utils/types';
 
 // Use environment variable for API base URL
-const API_BASE = '/api';
+const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || '/api';
 
 type LoginResponse = {
   user: WooCommerceCustomer;

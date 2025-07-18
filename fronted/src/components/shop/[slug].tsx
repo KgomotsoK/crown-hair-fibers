@@ -26,20 +26,20 @@ interface VariationImage {
 // Define a mapping for custom swatch images - you'll need to populate this with your actual image paths
 const CUSTOM_SWATCH_IMAGES: Record<string, string> = {
   // Format: 'option': 'image-path.jpg'
-  'Gray': 'https://cuvvahairfibers.com/wp-content/uploads/Gray.jpg',
-  'Auburn': 'https://cuvvahairfibers.com/wp-content/uploads/Auburn.jpg',
-  'Black': 'https://cuvvahairfibers.com/wp-content/uploads/Black.jpg',
-  'Medium Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Medium-Brown.jpg',
-  'Medium Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/Medium-Blonde.jpg',
-  'Golden Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/Golden-Blonde.jpg',
-  'Light Blonde': 'https://cuvvahairfibers.com/wp-content/uploads/CRO21-light-Brown.png',
-  'Dark Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Dark-Brown.jpg',
-  'Light Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Light-Brown.jpg',
-  'White': 'https://cuvvahairfibers.com/wp-content/uploads/White.jpg',
-  'Hazel Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Hazel-Brown.jpg',
-  'Dark Gray': 'https://cuvvahairfibers.com/wp-content/uploads/Dark-Gray.jpg',
-  'Ash Brown': 'https://cuvvahairfibers.com/wp-content/uploads/Ash-Brown.jpg',
-  'Dark Auburn': 'https://cuvvahairfibers.com/wp-content/uploads/Dark-Auburn.jpg',
+  'Gray': '/assets/images/swatch images/Gray.webp',
+  'Auburn': '/assets/images/swatch images/Auburn.webp',
+  'Black': '/assets/images/swatch images/Black.webp',
+  'Medium Brown': '/assets/images/swatch images/Medium-Brown.webp',
+  'Medium Blonde': '/assets/images/swatch images/Medium-Blonde.webp',
+  'Golden Blonde': '/assets/images/swatch images/Golden-Blonde.webp',
+  'Light Blonde': '/assets/images/swatch images/Light-Blonde.webp',
+  'Dark Brown': '/assets/images/swatch images/Dark-Brown.webp',
+  'Light Brown': '/assets/images/swatch images/Light-Brown.webp',
+  'White': '/assets/images/swatch images/White.webp',
+  'Hazel Brown': '/assets/images/swatch images/Hazel-Brown.webp',
+  'Dark Gray': '/assets/images/swatch images/Dark-Gray.webp',
+  'Ash Brown': '/assets/images/swatch images/Ash-Brown.webp',
+  'Dark Auburn': '/assets/images/swatch images/Dark-Auburn.webp',
 };
 
 

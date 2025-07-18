@@ -2,9 +2,7 @@ import { executeRecaptcha, verifyRecaptcha } from '@/utils/api';
 import { useCallback } from 'react';
 
 export const useRecaptcha = () => {
-  console.log('varifyRecaptcha');
   const validateRecaptcha = useCallback(async (action: string): Promise<boolean> => {
-    console.log('validateRecaptcha', action);
     try {
       const token = await executeRecaptcha(action);
       if (!token) {
@@ -24,6 +22,6 @@ export const useRecaptcha = () => {
       return false;
     }
   }, []);
-  console.log(validateRecaptcha);
+
   return { validateRecaptcha };
 }; 

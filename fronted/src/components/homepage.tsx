@@ -178,9 +178,9 @@ const Home: React.FC = () => {
         </div>
         <div className='headerPicsContainer'>
           <div className='pics-container'>
-          <Image id="header-img" src="/assets/images/props/hairstep2.png" alt="Hair Step 2" width={350} height={350}/>
+          <Image id="header-img" src="/assets/images/props/hairstep2.webp" alt="Hair Step 2" width={350} height={350}/>
           <div className='product-img-container'>
-          <Image className='header-product-img' src='/assets/images/props/Cuvva.png' alt="Cuvva Hair Fibers" width={400} height={400}/>
+          <Image className='header-product-img' src='/assets/images/props/Cuvva.webp' alt="Cuvva Hair Fibers" width={400} height={400}/>
           </div>
           </div>
           

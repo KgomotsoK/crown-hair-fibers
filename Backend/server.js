@@ -1,5 +1,6 @@
 // Backend/server.js
 const express = require('express');
+require('dotenv').config({ path: '../.env' });
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
@@ -30,7 +31,8 @@ app.use(cors({
   origin: [
     process.env.FRONTEND_URL || 'https://www.crowntwentyone.com',
     'http://localhost:8000',
-    'https://crown-hair-fibers-0f1c08080a59.herokuapp.com'
+    'https://crown-hair-fibers-0f1c08080a59.herokuapp.com',
+    'http://localhost:3000',
   ],
   credentials: true
 }));
@@ -72,8 +74,8 @@ app.get('/health', (req, res) => {
 app.use(errorHandler);
 
 module.exports = app;
-/*const port = process.env.PORT || 3000;
+/*const port = process.env.PORT || 8000;
 app.listen(port, (err) => {
   if (err) throw err;
   console.log(`> Ready on http://localhost:${port}`);
-});*/
+});*/ 
