@@ -1,18 +1,21 @@
+// Fronted/src/utils/addTocart.tsx
 'use client';
 
 import { useCart } from '@/context/CartContext';
 import React from 'react';
+import '../styles/cart.css';
 import { WooCommerceProduct } from './types';
 
 interface AddToCartProps {
   product: WooCommerceProduct | undefined;
-  quantity?: number;  // Make quantity optional with ?
+  quantity?: number;
+  disabled?: boolean;
 }
 
-const AddToCart: React.FC<AddToCartProps> = ({ product, quantity = 1 }) => {
+const AddToCart: React.FC<AddToCartProps> = ({ product, quantity = 1, disabled = false }) => {
   const { addToCart } = useCart();
   const handleAddToCart = () => {
-    if (!product?.id) return;
+    if (!product?.id || disabled) return;
 
     // Ensure price is a valid number
     const price = parseFloat(product?.price || '0');
@@ -37,7 +40,7 @@ const AddToCart: React.FC<AddToCartProps> = ({ product, quantity = 1 }) => {
   };
 
   return (
-    <button className="add-to-cart-button" onClick={handleAddToCart}>
+    <button className="add-to-cart-button" onClick={handleAddToCart} disabled={disabled}>
       Add to Cart
     </button>
   );
