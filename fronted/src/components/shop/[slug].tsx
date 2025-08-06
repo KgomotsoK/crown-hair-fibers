@@ -291,6 +291,14 @@ const ProductDetailPage = () => {
     );
   }
 
+  const allVariationsSelected = () => {
+  if (!product || product.type !== 'variable') return true; // Not a variable product
+  
+  return product.attributes?.every(
+    (attr) => selectedVariation[attr.name]
+  );
+};
+
   const displayProduct = variationDetails || product;
   const averageRating =
     reviews.length > 0
@@ -468,7 +476,7 @@ const ProductDetailPage = () => {
 
           {/* Action Buttons */}
           <div className="action-buttons">
-            <AddToCart product={displayProduct} quantity={quantity}/>
+            <AddToCart product={displayProduct} quantity={quantity} disabled={product.type === 'variable' && !allVariationsSelected()}/>
             <button 
               className="go-to-cart-button"
               onClick={openCart}
